@@ -49,6 +49,7 @@ class LinkageScrollScene: UserVisibleHintGroupScene() {
         layoutBottom = view.findViewById(R.id.layoutBottom)
         rvBottom = view.findViewById(R.id.rvLinkageBottom)
         bottomSheet = view.findViewById(R.id.bottomSheet)
+        view.findViewById<View>(R.id.layoutMid).setOnClickListener {  }
 
         rvTop.initPictures()
         rvBottom.initPictures(true)
@@ -66,8 +67,9 @@ class LinkageScrollScene: UserVisibleHintGroupScene() {
     }
 
     private fun updateFloatState() {
+        val bottomShowHeight = linkageScroll.height - (layoutBottom.top - linkageScroll.scrollY)
         if (bottomSheet.indexOfChild(rvBottom) >= 0) {
-            if (linkageScroll.scrollY >= floatingHeight) {
+            if (bottomShowHeight >= floatingHeight) {
                 bottomSheet.visibility = View.GONE
                 bottomSheet.removeView(rvBottom)
                 if (layoutBottom.indexOfChild(rvBottom) < 0) {
@@ -76,7 +78,7 @@ class LinkageScrollScene: UserVisibleHintGroupScene() {
                 linkageScroll.bottomScrollTarget = { rvBottom }
             }
         } else {
-            if (linkageScroll.scrollY < floatingHeight) {
+            if (bottomShowHeight < floatingHeight) {
                 linkageScroll.bottomScrollTarget = null
                 if (layoutBottom.indexOfChild(rvBottom) >= 0) {
                     layoutBottom.removeView(rvBottom)
